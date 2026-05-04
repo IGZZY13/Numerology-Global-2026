@@ -6,55 +6,12 @@
 <title>Numerology Global 2026</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at bottom, #020111, #000);
-  color: white;
-  text-align: center;
-}
-
-canvas {
-  position: fixed;
-  top:0;
-  left:0;
-  z-index:-1;
-}
-
-.container {
-  margin-top: 50px;
-}
-
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  padding: 25px;
-  border-radius: 15px;
-  width: 340px;
-  margin: auto;
-}
-
-input, button {
-  width: 90%;
-  padding: 10px;
-  margin: 6px;
-  border-radius: 8px;
-  border: none;
-}
-
-button {
-  background: linear-gradient(45deg, purple, blue);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.result {
-  margin-top: 20px;
-  text-align: left;
-  font-size: 14px;
-  line-height: 1.6;
-}
+body {margin:0;font-family:'Segoe UI';background:#000;color:white;text-align:center;}
+canvas{position:fixed;top:0;left:0;z-index:-1;}
+.card{background:rgba(255,255,255,0.05);padding:25px;border-radius:15px;width:360px;margin:50px auto;}
+input,select,button{width:90%;padding:10px;margin:6px;border-radius:8px;border:none;}
+button{background:linear-gradient(45deg,purple,blue);color:white;cursor:pointer;}
+.result{text-align:left;margin-top:20px;font-size:14px;}
 </style>
 </head>
 
@@ -62,7 +19,6 @@ button {
 
 <canvas id="stars"></canvas>
 
-<div class="container">
 <h1>Numerology Global 2026</h1>
 
 <div class="card">
@@ -72,134 +28,95 @@ button {
 
 <button onclick="calculate()">Reveal Your Reading</button>
 
-<div class="result" id="result"></div>
-</div>
+<div id="result" class="result"></div>
 </div>
 
 <script>
 // stars
 const c=document.getElementById("stars"),ctx=c.getContext("2d");
 c.width=innerWidth;c.height=innerHeight;
-let stars=[...Array(300)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2}));
+let stars=[...Array(200)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2}));
 setInterval(()=>{ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="white";stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill();});},50);
 
-// math
-function reduce(n){while(n>9)n=n.toString().split('').reduce((a,b)=>a+ +b,0);return n;}
+// MASTER NUMBER SUPPORT
+function reduce(n){
+while(n>9 && n!=11 && n!=22 && n!=33){
+n=n.toString().split('').reduce((a,b)=>a+ +b,0);
+}
+return n;
+}
 
-// name numerology
 function nameNumber(str){
-let sum=0;
-str=str.toUpperCase();
+let sum=0;str=str.toUpperCase();
 for(let i=0;i<str.length;i++){
 if(str[i]>='A'&&str[i]<='Z') sum+=str.charCodeAt(i)-64;
 }
 return reduce(sum);
 }
 
-// vowels for soul
 function soulNumber(str){
-let sum=0;
-str=str.toUpperCase();
-for(let c of str){
-if("AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;
-}
+let sum=0;str=str.toUpperCase();
+for(let c of str){if("AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;}
 return reduce(sum);
 }
 
-// consonants personality
 function personalityNumber(str){
-let sum=0;
-str=str.toUpperCase();
-for(let c of str){
-if(c>='A'&&c<='Z' && !"AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;
-}
+let sum=0;str=str.toUpperCase();
+for(let c of str){if(c>='A'&&c<='Z' && !"AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;}
 return reduce(sum);
 }
 
-// TEXT ENGINE (random)
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
-
-function generateText(name, life, destiny, soul, personality){
-
-const intro = [
-`${name}, your energy reveals a unique combination of power and purpose.`,
-`This reading uncovers deeper layers of your personality, ${name}.`,
-`${name}, your numbers show a powerful life pattern forming.`
-];
-
-const lifeText = [
-`Your Life Path number ${life} defines your main journey and direction in life.`,
-`Life Path ${life} represents the core mission your soul is following.`,
-`Number ${life} shows the primary energy guiding your life decisions.`
-];
-
-const destinyText = [
-`Your Destiny number ${destiny} reflects your natural talents and external path.`,
-`Destiny ${destiny} reveals what you are meant to achieve in this lifetime.`,
-`This number shows how others perceive your strength and abilities.`
-];
-
-const soulText = [
-`Your Soul number ${soul} represents your inner desires and emotional needs.`,
-`This number reveals what truly fulfills you deep inside.`,
-`Your inner world is strongly influenced by this vibration.`
-];
-
-const personalityText = [
-`Your Personality number ${personality} shows how others see you.`,
-`This is the energy you project outward into the world.`,
-`People often recognize you through this vibration.`
-];
-
-const future = [
-`In the coming period, major changes are aligning in your favor. Trust your intuition and take action when opportunities appear.`,
-`A new phase is approaching. Decisions made soon will shape your long-term future significantly.`,
-`You are entering a powerful cycle of growth. Stay focused and avoid distractions.`
-];
-
-return `
-<h3>Personal Reading</h3>
-<p>${pick(intro)}</p>
-
-<p>${pick(lifeText)}</p>
-<p>${pick(destinyText)}</p>
-<p>${pick(soulText)}</p>
-<p>${pick(personalityText)}</p>
-
-<hr>
-
-<h3>Future Insight</h3>
-<p>${pick(future)}</p>
-
-<hr>
-
-<b>Summary:</b><br>
-Life Path: ${life}<br>
-Destiny: ${destiny}<br>
-Soul: ${soul}<br>
-Personality: ${personality}
-`;
+// KARMIC CHECK
+function karmic(num){
+return [13,14,16,19].includes(num) ? num : null;
 }
 
-// main
 function calculate(){
-const name = document.getElementById("name").value;
-const surname = document.getElementById("surname").value;
-const date = document.getElementById("date").value;
 
-if(!name || !date) return;
+const name=document.getElementById("name").value;
+const surname=document.getElementById("surname").value;
+const date=document.getElementById("date").value;
 
-let sum = date.replaceAll("-","").split("").reduce((a,b)=>a+ +b,0);
-let life = reduce(sum);
+if(!name||!date)return;
 
-let fullName = name + surname;
+let digits=date.replaceAll("-","").split("");
+let sum=digits.reduce((a,b)=>a+ +b,0);
 
-let destiny = nameNumber(fullName);
-let soul = soulNumber(fullName);
-let personality = personalityNumber(fullName);
+let life=reduce(sum);
+let destiny=nameNumber(name+surname);
+let soul=soulNumber(name+surname);
+let personality=personalityNumber(name+surname);
 
-document.getElementById("result").innerHTML =
-generateText(name, life, destiny, soul, personality);
+// NEW
+let birthday=parseInt(date.split("-")[2]);
+let karmicLife=karmic(sum);
+let karmicDestiny=karmic(destiny);
+
+document.getElementById("result").innerHTML=`
+
+<h3>Full Reading</h3>
+
+<p><b>Life Path:</b> ${life}</p>
+<p><b>Destiny:</b> ${destiny}</p>
+<p><b>Soul:</b> ${soul}</p>
+<p><b>Personality:</b> ${personality}</p>
+<p><b>Birthday Number:</b> ${birthday}</p>
+
+${karmicLife ? `<p><b>Karmic Debt (Life Path):</b> ${karmicLife}</p>` : ""}
+${karmicDestiny ? `<p><b>Karmic Debt (Destiny):</b> ${karmicDestiny}</p>` : ""}
+
+<hr>
+
+<p>${name}, your numbers reveal a strong personal pattern combining internal drive, emotional depth and external influence.</p>
+
+<p>Your Life Path ${life} defines your direction, while Destiny ${destiny} shows how you act in the world.</p>
+
+<p>Your Soul ${soul} reveals inner desires, and Personality ${personality} reflects how others perceive you.</p>
+
+<p>The Birthday number ${birthday} adds a specific personal vibration influencing your talents and natural abilities.</p>
+
+<p>You are currently moving through a phase of development where decisions will shape your long-term direction.</p>
+`;
 }
 </script>
 
