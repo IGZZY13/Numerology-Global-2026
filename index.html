@@ -6,12 +6,77 @@
 <title>Numerology Global 2026</title>
 
 <style>
-body{margin:0;font-family:'Segoe UI';background:#000;color:white;text-align:center;}
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+background: radial-gradient(circle at top,#0a0f2c,#000);
+color:white;
+text-align:center;
+}
+
 canvas{position:fixed;top:0;left:0;z-index:-1;}
-.card{background:rgba(255,255,255,0.05);padding:25px;border-radius:15px;width:360px;margin:50px auto;}
-input,select,button{width:90%;padding:10px;margin:6px;border-radius:8px;border:none;}
-button{background:linear-gradient(45deg,purple,blue);color:white;cursor:pointer;}
-.result{text-align:left;margin-top:20px;font-size:14px;line-height:1.6;}
+
+h1{
+margin-top:30px;
+font-size:22px;
+}
+
+.card{
+background:rgba(255,255,255,0.07);
+backdrop-filter:blur(20px);
+padding:25px 20px;
+border-radius:20px;
+width:90%;
+max-width:420px;
+margin:20px auto;
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
+}
+
+input,select,button{
+width:100%;
+padding:14px;
+margin:8px 0;
+border-radius:12px;
+border:none;
+font-size:16px;
+}
+
+input{
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+select{
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+button{
+background:linear-gradient(45deg,#6a00ff,#00c3ff);
+color:white;
+font-weight:bold;
+transition:0.2s;
+}
+
+button:active{
+transform:scale(0.97);
+}
+
+.result{
+margin-top:20px;
+text-align:left;
+font-size:15px;
+line-height:1.7;
+background:rgba(255,255,255,0.05);
+padding:15px;
+border-radius:12px;
+animation:fade 0.5s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
 </style>
 </head>
 
@@ -21,6 +86,8 @@ button{background:linear-gradient(45deg,purple,blue);color:white;cursor:pointer;
 
 <h1 id="title">Numerology Global 2026</h1>
 
+<div class="card">
+
 <select id="lang" onchange="setLang()">
 <option value="en">English</option>
 <option value="de">Deutsch</option>
@@ -28,7 +95,6 @@ button{background:linear-gradient(45deg,purple,blue);color:white;cursor:pointer;
 <option value="es">Español</option>
 </select>
 
-<div class="card">
 <input id="name" placeholder="First Name">
 <input id="surname" placeholder="Last Name">
 <input id="date" type="date">
@@ -36,6 +102,7 @@ button{background:linear-gradient(45deg,purple,blue);color:white;cursor:pointer;
 <button id="btn" onclick="calculate()">Reveal Your Reading</button>
 
 <div id="result" class="result"></div>
+
 </div>
 
 <script>
@@ -43,7 +110,15 @@ button{background:linear-gradient(45deg,purple,blue);color:white;cursor:pointer;
 const c=document.getElementById("stars"),ctx=c.getContext("2d");
 c.width=innerWidth;c.height=innerHeight;
 let stars=[...Array(200)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2}));
-setInterval(()=>{ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="white";stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill();});},50);
+setInterval(()=>{
+ctx.clearRect(0,0,c.width,c.height);
+ctx.fillStyle="white";
+stars.forEach(s=>{
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,6.28);
+ctx.fill();
+});
+},50);
 
 // language UI
 const ui={
@@ -68,7 +143,8 @@ return n;
 }
 
 function nameNumber(str){
-let sum=0;str=str.toUpperCase();
+let sum=0;
+str=str.toUpperCase();
 for(let i=0;i<str.length;i++){
 if(str[i]>='A'&&str[i]<='Z') sum+=str.charCodeAt(i)-64;
 }
@@ -76,91 +152,30 @@ return reduce(sum);
 }
 
 function soulNumber(str){
-let sum=0;str=str.toUpperCase();
-for(let c of str){if("AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;}
+let sum=0;
+str=str.toUpperCase();
+for(let c of str){
+if("AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;
+}
 return reduce(sum);
 }
 
 function personalityNumber(str){
-let sum=0;str=str.toUpperCase();
-for(let c of str){if(c>='A'&&c<='Z' && !"AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;}
+let sum=0;
+str=str.toUpperCase();
+for(let c of str){
+if(c>='A'&&c<='Z' && !"AEIOU".includes(c)) sum+=c.charCodeAt(0)-64;
+}
 return reduce(sum);
 }
 
-function karmic(num){
-return [13,14,16,19].includes(num) ? num : null;
-}
-
-function pick(a){return a[Math.floor(Math.random()*a.length)];}
-
-// TEXT
-function generateText(name,life,destiny,soul,personality,birthday,karmicLife,karmicDestiny,lang){
-
-const text={
-en:{
-p1:`${name}, your numerological profile reveals a complex and layered personality shaped by multiple energetic influences.`,
-p2:`Your Life Path ${life} defines your main direction in life and the lessons you are meant to experience.`,
-p3:`Destiny ${destiny} shows your talents and how you interact with the world, while Soul ${soul} reflects your inner desires.`,
-p4:`Your Personality ${personality} represents how others see you, and Birthday number ${birthday} adds a unique personal vibration.`,
-p5:`You are currently moving through a period of growth and transformation where key decisions will shape your future path.`,
-future:`A significant shift is approaching. Opportunities will appear, and your ability to recognize them will determine your success.`
-},
-de:{
-p1:`${name}, dein Profil zeigt eine komplexe Persönlichkeit.`,
-p2:`Lebenszahl ${life} bestimmt deinen Weg.`,
-p3:`Schicksalszahl ${destiny} und Seelenzahl ${soul} zeigen deine Tiefe.`,
-p4:`Persönlichkeit ${personality} und Geburtstag ${birthday} ergänzen dein Profil.`,
-p5:`Du bist in einer wichtigen Entwicklungsphase.`,
-future:`Eine Veränderung steht bevor.`
-},
-fr:{
-p1:`${name}, votre profil montre une personnalité complexe.`,
-p2:`Chemin de vie ${life} guide votre destin.`,
-p3:`Destinée ${destiny} et âme ${soul} définissent votre nature.`,
-p4:`Personnalité ${personality} et anniversaire ${birthday} complètent votre profil.`,
-p5:`Une phase importante commence.`,
-future:`Un changement arrive.`
-},
-es:{
-p1:`${name}, tu perfil muestra una personalidad compleja.`,
-p2:`Número de vida ${life} define tu camino.`,
-p3:`Destino ${destiny} y alma ${soul} muestran tu interior.`,
-p4:`Personalidad ${personality} y cumpleaños ${birthday} te definen.`,
-p5:`Estás en una fase importante de cambio.`,
-future:`Un cambio importante está llegando.`
-}
-};
-
-let t=text[lang];
-
-return `
-<h3>${t.p1}</h3>
-<p>${t.p2}</p>
-<p>${t.p3}</p>
-<p>${t.p4}</p>
-<p>${t.p5}</p>
-
-${karmicLife ? `<p><b>Karmic Debt (Life):</b> ${karmicLife}</p>` : ""}
-${karmicDestiny ? `<p><b>Karmic Debt (Destiny):</b> ${karmicDestiny}</p>` : ""}
-
-<hr>
-
-<h3>Future Insight</h3>
-<p>${t.future}</p>
-
-<hr>
-
-<b>Summary:</b><br>
-Life Path: ${life}<br>
-Destiny: ${destiny}<br>
-Soul: ${soul}<br>
-Personality: ${personality}<br>
-Birthday: ${birthday}
-`;
+function karmic(n){
+return [13,14,16,19].includes(n)?n:null;
 }
 
 // main
 function calculate(){
+
 const lang=document.getElementById("lang").value;
 const name=document.getElementById("name").value;
 const surname=document.getElementById("surname").value;
@@ -180,8 +195,50 @@ let birthday=parseInt(date.split("-")[2]);
 let karmicLife=karmic(sum);
 let karmicDestiny=karmic(destiny);
 
-document.getElementById("result").innerHTML=
-generateText(name,life,destiny,soul,personality,birthday,karmicLife,karmicDestiny,lang);
+// TEXT
+let text={
+en:`${name}, your numerology reveals a complex personality shaped by deep internal and external forces.
+
+Your Life Path ${life} defines your direction, while Destiny ${destiny} shows how you act in the world.
+
+Soul ${soul} reflects your inner desires, while Personality ${personality} shows how others see you.
+
+Your Birthday number ${birthday} adds a unique influence to your talents.
+
+You are currently in a phase where important decisions will shape your future.
+
+A powerful change is approaching — your awareness will determine your success.`,
+de:`${name}, dein Profil zeigt eine komplexe Persönlichkeit mit starken Einflüssen.
+
+Lebenszahl ${life} bestimmt deinen Weg und Schicksalszahl ${destiny} dein Handeln.
+
+Seelenzahl ${soul} zeigt deine Wünsche und Persönlichkeit ${personality} dein Auftreten.
+
+Geburtstag ${birthday} bringt zusätzliche Energie.
+
+Eine wichtige Phase beginnt.`,
+fr:`${name}, votre profil montre une personnalité complexe.
+
+Chemin ${life}, destinée ${destiny}, âme ${soul} et personnalité ${personality} définissent votre nature.
+
+Anniversaire ${birthday} ajoute une influence unique.
+
+Un changement important arrive.`,
+es:`${name}, tu perfil muestra una personalidad compleja.
+
+Vida ${life}, destino ${destiny}, alma ${soul} y personalidad ${personality} te definen.
+
+Cumpleaños ${birthday} agrega energía única.
+
+Un cambio importante se acerca.`
+};
+
+let result = `<p>${text[lang]}</p>`;
+
+if(karmicLife) result+=`<p><b>Karmic Debt (Life):</b> ${karmicLife}</p>`;
+if(karmicDestiny) result+=`<p><b>Karmic Debt (Destiny):</b> ${karmicDestiny}</p>`;
+
+document.getElementById("result").innerHTML = result;
 }
 </script>
 
