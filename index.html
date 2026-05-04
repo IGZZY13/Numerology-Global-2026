@@ -1,91 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestial Numerology 2026</title>
-    <style>
-        body { margin: 0; padding: 0; background: #05050a url('https://www.transparenttextures.com/patterns/stardust.png'); font-family: 'Georgia', serif; color: #d4af37; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%); }
-        .main-card { background: rgba(15, 15, 25, 0.95); width: 90%; max-width: 480px; padding: 40px; border-radius: 30px; border: 2px solid #d4af37; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); text-align: center; backdrop-filter: blur(10px); }
-        h1 { font-size: 28px; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; text-shadow: 0 0 15px #d4af37; }
-        .input-box { text-align: left; margin-bottom: 20px; }
-        label { display: block; font-size: 12px; text-transform: uppercase; margin-bottom: 8px; color: #aaa; letter-spacing: 1px; }
-        input { width: 100%; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid #3d3d45; color: #fff; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
-        input:focus { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-        button { background: linear-gradient(135deg, #d4af37 0%, #aa8928 100%); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 16px; margin-top: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
-        #loader { display: none; padding: 40px 0; }
-        .progress-container { width: 100%; background: #222; height: 12px; border-radius: 6px; margin: 25px 0; border: 1px solid #d4af37; overflow: hidden; }
-        .progress-bar { width: 0%; height: 100%; background: #d4af37; box-shadow: 0 0 15px #d4af37; transition: linear; }
-        #result-box { display: none; padding: 25px; border-radius: 15px; background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.3); margin-top: 20px; text-align: left; }
-        .path-num { font-size: 60px; font-weight: bold; display: block; text-align: center; margin: 10px 0; color: #fff; text-shadow: 0 0 20px #d4af37; }
-    </style>
-</head>
-<body>
-<div class="stars"></div>
-<div class="main-card">
-    <div id="setup-view">
-        <h1 id="t-h1">Celestial 2026</h1>
-        <p id="t-sub" style="color: #888; font-size: 14px; margin-bottom: 30px;">Discover your cosmic alignment and destiny.</p>
-        <div class="input-box"><label id="l-name">Full Name</label><input type="text" id="iname"></div>
-        <div class="input-box"><label id="l-dob">Date of Birth</label><input type="date" id="idob"></div>
-        <div class="input-box"><label id="l-tob">Time of Birth</label><input type="time" id="itob"></div>
-        <div class="input-box"><label id="l-pob">Place of Birth</label><input type="text" id="ipob"></div>
-        <button id="b-start" onclick="calculate()">GET MY DESTINY REPORT</button>
-    </div>
-    <div id="loader">
-        <h3 id="t-load">Mapping the Stars...</h3>
-        <div class="progress-container"><div class="progress-bar" id="pbar"></div></div>
-    </div>
-    <div id="result-view" style="display:none;">
-        <h2 id="t-res-h" style="text-align:center; color:#fff;">Analysis Complete</h2>
-        <div id="result-box">
-            <span id="t-path" style="font-size:12px; color:#d4af37; text-transform:uppercase;">Your Life Path Number:</span>
-            <span class="path-num" id="final-num">?</span>
-            <p id="final-desc" style="line-height:1.6; color: #eee; font-size: 15px;"></p>
-        </div>
-        <p style="font-size: 12px; color: #d9534f; font-weight: bold; margin-top: 20px;" id="t-warn">CRITICAL: 2026 is a major turning point for you.</p>
-        <button id="b-full" style="background: #fff; color: #000;">DOWNLOAD FULL 40-PAGE PDF</button>
-    </div>
-</div>
-<script>
-    const i18n = {
-        en: { h1: "Celestial 2026", sub: "Discover your cosmic alignment.", l1: "Full Name", l2: "Date of Birth", l3: "Time of Birth", l4: "Place of Birth", b: "GET MY DESTINY REPORT", ld: "Mapping the Stars...", res: "Analysis Complete", path: "Your Life Path Number:", warn: "CRITICAL: 2026 is a major turning point for you.", b2: "DOWNLOAD FULL 40-PAGE PDF", r: ["The Leader: 2026 brings power and career growth.", "The Peacekeeper: A year of harmony and deep love.", "The Creative: Your ideas will bring financial gain.", "The Builder: Strong foundations for your future.", "The Explorer: Unexpected travels and major changes.", "The Nurturer: Family peace and home stability.", "The Seeker: Spiritual secrets will be revealed.", "The Achiever: Wealth and success are coming.", "The Humanitarian: A new cycle of light begins."] },
-        sr: { h1: "Sudbina 2026", sub: "Otkrijte vaše kosmičko poravnanje.", l1: "Puno Ime", l2: "Datum Rođenja", l3: "Vreme Rođenja", l4: "Mesto Rođenja", b: "SAZNAJ MOJU SUDBINU", ld: "Mapiranje zvezda...", res: "Analiza Završena", path: "Vaš Sudbinski Broj:", warn: "KRITIČNO: 2026. je ključna godina za vas.", b2: "PREUZMI CEO PDF (40 STRANA)", r: ["Vođa: 2026. donosi moć i uspeh u karijeri.", "Mirotvorac: Godina harmonije i duboke ljubavi.", "Kreativac: Vaše ideje donose veliki novac.", "Graditelj: Jaki temelji za vašu budućnost.", "Istraživač: Neočekivana putovanja i promene.", "Čuvar: Porodični mir i stabilnost doma.", "Tragač: Duhovne tajne će vam biti otkrivene.", "Moćnik: Bogatstvo i uspeh vam dolaze.", "Humanista: Počinje novi ciklus svetlosti."] },
-        de: { h1: "Schicksal 2026", sub: "Entdecke dein Schicksal.", l1: "Vollständiger Name", l2: "Geburtsdatum", l3: "Geburtszeit", l4: "Geburtsort", b: "BERICHT ERSTELLEN", ld: "Sterne kartieren...", res: "Analyse Abgeschlossen", path: "Deine Schicksalszahl:", warn: "KRITISCH: 2026 ist ein Wendepunkt für Sie.", b2: "VOLLSTÄNDIGES PDF HERUNTERLADEN", r: ["Der Anführer: 2026 bringt Erfolg.", "Der Friedensstifter: Ein Jahr der Harmonie.", "Der Kreative: Ideen bringen Geld.", "Der Erbauer: Starke Fundamente.", "Der Entdecker: Unerwartete Reisen.", "Der Pfleger: Familiärer Frieden.", "Der Suchende: Spirituelle Geheimnisse.", "Der Leistungsträger: Reichtum kommt.", "Der Humanist: Ein neuer Lichtzyklus."] }
-    };
-    let uL = navigator.language.split('-')[0];
-    let c = i18n[uL] || i18n.en;
-    document.getElementById('t-h1').innerText = c.h1;
-    document.getElementById('t-sub').innerText = c.sub;
-    document.getElementById('l-name').innerText = c.l1;
-    document.getElementById('l-dob').innerText = c.l2;
-    document.getElementById('l-tob').innerText = c.l3;
-    document.getElementById('l-pob').innerText = c.l4;
-    document.getElementById('b-start').innerText = c.b;
-    document.getElementById('t-load').innerText = c.ld;
-    document.getElementById('t-res-h').innerText = c.res;
-    document.getElementById('t-path').innerText = c.path;
-    document.getElementById('t-warn').innerText = c.warn;
-    document.getElementById('b-full').innerText = c.b2;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numerology Global 2026</title>
 
-    function calculate() {
-        if(!document.getElementById('iname').value || !document.getElementById('idob').value) return alert("Please fill all fields.");
-        document.getElementById('setup-view').style.display='none';
-        document.getElementById('loader').style.display='block';
-        let p=0; let i=setInterval(()=>{
-            p++; document.getElementById('pbar').style.width=p+'%';
-            if(p>=100){ clearInterval(i); finish(); }
-        }, 50);
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  color: white;
+  text-align: center;
+  background: black;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+input, select, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  background: purple;
+  color: white;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="container">
+  <h1 id="title">Numerology Global 2026</h1>
+
+  <select id="lang" onchange="setLang()">
+    <option value="en">English</option>
+    <option value="sr">Srpski</option>
+    <option value="es">Español</option>
+    <option value="de">Deutsch</option>
+    <option value="fr">Français</option>
+  </select>
+
+  <br>
+
+  <input id="name" placeholder="Name">
+  <input id="surname" placeholder="Surname"><br>
+  <input id="date" type="date"><br>
+  <input id="time" type="time"><br>
+  <input id="place" placeholder="Place of birth"><br>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+// ⭐ STARS
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+for (let i = 0; i < 200; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2
+  });
+}
+
+function drawStars() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "white";
+  stars.forEach(s=>{
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+  });
+}
+setInterval(drawStars, 50);
+
+// 🌍 TRANSLATIONS
+const translations = {
+  en: {
+    title: "Numerology Global 2026",
+    result: "Your Life Path Number:",
+    destiny: "Destiny Number:"
+  },
+  sr: {
+    title: "Numerologija Global 2026",
+    result: "Vaš životni broj:",
+    destiny: "Broj sudbine:"
+  }
+};
+
+function setLang() {
+  const lang = document.getElementById("lang").value;
+  document.getElementById("title").innerText = translations[lang].title;
+}
+
+// 🔢 LOGIC
+function reduceNumber(num) {
+  while (num > 9) {
+    num = num.toString().split('').reduce((a,b)=>a+parseInt(b),0);
+  }
+  return num;
+}
+
+function getMeaning(num, lang) {
+  const meanings = {
+    en: {
+      1: "Leader, independent, strong will",
+      2: "Sensitive, partnership, diplomacy",
+      3: "Creative, expressive",
+      4: "Stable, practical",
+      5: "Freedom, adventure",
+      6: "Family, responsibility",
+      7: "Spiritual, analytical",
+      8: "Power, success, money",
+      9: "Humanitarian, emotional"
+    },
+    sr: {
+      1: "Vođa, nezavisan, jak karakter",
+      2: "Osetljiv, partnerstvo",
+      3: "Kreativan, komunikativan",
+      4: "Stabilan, praktičan",
+      5: "Sloboda, avantura",
+      6: "Porodica, odgovornost",
+      7: "Duhovan, analitičan",
+      8: "Uspeh, moć, novac",
+      9: "Humanitaran, emotivan"
     }
-    function finish() {
-        let d = document.getElementById('idob').value.replace(/-/g,'').split('').reduce((a,b)=>parseInt(a)+parseInt(b),0);
-        while(d>9) d = String(d).split('').reduce((a,b)=>parseInt(a)+parseInt(b),0);
-        document.getElementById('final-num').innerText = d;
-        document.getElementById('final-desc').innerText = c.r[d-1];
-        document.getElementById('loader').style.display='none';
-        document.getElementById('result-view').style.display='block';
+  };
+
+  return meanings[lang][num] || "";
+}
+
+function calculate() {
+  const date = document.getElementById("date").value;
+  if (!date) return;
+
+  let sum = date.replaceAll("-", "")
+    .split("")
+    .reduce((a,b)=>a+parseInt(b),0);
+
+  let lifePath = reduceNumber(sum);
+
+  const name = document.getElementById("name").value +
+               document.getElementById("surname").value;
+
+  let nameSum = 0;
+  name.toUpperCase().split("").forEach(ch=>{
+    if(ch >= 'A' && ch <= 'Z'){
+      nameSum += ch.charCodeAt(0)-64;
     }
+  });
+
+  let destiny = reduceNumber(nameSum);
+
+  const lang = document.getElementById("lang").value;
+
+  document.getElementById("result").innerHTML =
+    translations[lang].result + " " + lifePath +
+    "<br>" + getMeaning(lifePath, lang) +
+    "<br><br>" + translations[lang].destiny + " " + destiny +
+    "<br>" + getMeaning(destiny, lang);
+}
 </script>
+
 </body>
 </html>
