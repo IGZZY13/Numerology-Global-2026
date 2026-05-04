@@ -1,73 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Numerology 2026</title>
+    <title>Profesionalna Numerologija 2026</title>
     <style>
-        :root { --primary: #2c3e50; --gold: #c5a059; --light: #f8f9fa; }
-        body { background: var(--light); color: var(--primary); font-family: Arial, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .app-container { background: white; width: 100%; max-width: 450px; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border: 1px solid #ddd; text-align: center; }
-        .lang-switch { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
-        .lang-btn { cursor: pointer; border: 1px solid #ddd; background: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; }
-        h1 { color: var(--gold); font-size: 22px; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        label { display: block; font-size: 13px; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
+        body { background: #f4f4f9; color: #333; font-family: 'Segoe UI', Arial, sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .container { background: #fff; max-width: 500px; width: 100%; padding: 35px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-top: 8px solid #c5a059; text-align: center; }
+        h1 { color: #c5a059; font-size: 26px; margin-bottom: 10px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { font-weight: bold; font-size: 14px; display: block; margin-bottom: 5px; }
         input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        button#main-btn { width: 100%; padding: 15px; background: var(--gold); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button { width: 100%; padding: 16px; background: #c5a059; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #ac8a48; }
         #loader { display: none; padding: 30px 0; }
-        .progress-bar { width: 100%; background: #eee; height: 10px; border-radius: 5px; margin: 15px 0; overflow: hidden; }
-        .fill { width: 0%; height: 100%; background: var(--gold); transition: 0.1s linear; }
-        #result { display: none; padding-top: 20px; }
+        .progress-bar { width: 100%; background: #eee; height: 12px; border-radius: 6px; margin: 15px 0; overflow: hidden; }
+        .fill { width: 0%; height: 100%; background: #c5a059; transition: linear; }
+        #result-box { display: none; text-align: left; background: #fffdf5; padding: 25px; border: 1px solid #eaddca; border-radius: 10px; margin-top: 20px; }
+        .number-circle { width: 60px; height: 60px; background: #2c3e50; color: #c5a059; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; margin: 0 auto 15px; border: 3px solid #c5a059; }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="lang-switch">
-        <button class="lang-btn" onclick="setL('en')">EN</button>
-        <button class="lang-btn" onclick="setL('sr')">SRB</button>
+<div class="container">
+    <div id="setup">
+        <h1>Celestial 2026</h1>
+        <p style="color: #666; margin-bottom: 25px;">Sistem za izračunavanje sudbinskog koda</p>
+        <div class="input-group"><label>Vaše Puno Ime</label><input type="text" id="userName" placeholder="Petar Petrović"></div>
+        <div class="input-group"><label>Datum Rođenja</label><input type="date" id="userDob"></div>
+        <div class="input-group"><label>Mesto Rođenja</label><input type="text" id="userPob" placeholder="Grad, Država"></div>
+        <button onclick="calculateDestiny()">IZRAČUNAJ MOJ KOD</button>
     </div>
-    <div id="step1">
-        <h1 id="h">Numerology Report 2026</h1>
-        <div class="form-group"><label id="l1">Full Name</label><input type="text" id="name"></div>
-        <div class="form-group"><label id="l2">Date of Birth</label><input type="date" id="dob"></div>
-        <div class="form-group"><label id="l3">Time of Birth</label><input type="time" id="tob"></div>
-        <div class="form-group"><label id="l4">Place of Birth</label><input type="text" id="pob"></div>
-        <button id="main-btn" onclick="calc()">GET MY ANALYSIS</button>
-    </div>
+
     <div id="loader">
-        <h2 id="lt">Analyzing...</h2>
-        <div class="progress-bar"><div class="fill" id="f"></div></div>
+        <h3 id="status-text">Analiza datuma...</h3>
+        <div class="progress-bar"><div class="fill" id="progress-fill"></div></div>
     </div>
-    <div id="result">
-        <h2 style="color: green;">SUCCESS!</h2>
-        <p id="rt">Your basic 2026 chart is ready. To see the full destiny report, please verify you are a human.</p>
-        <button style="width:100%; padding:15px; background:#2c3e50; color:white; border:none; border-radius:8px; font-weight:bold;">ACCESS FULL REPORT</button>
+
+    <div id="result-box">
+        <div class="number-circle" id="destiny-number">?</div>
+        <h2 style="text-align:center; margin-top:0;">IZVEŠTAJ GENERISAN</h2>
+        <p id="destiny-text" style="line-height:1.7; font-size: 15px; color: #444;"></p>
+        <div style="background: #eee; height: 1px; margin: 20px 0;"></div>
+        <p style="font-size: 13px; color: #d9534f; font-weight: bold; text-align: center;">UPOZORENJE: 2026. godina je kritična tačka za vaš broj.</p>
+        <button style="background: #2c3e50;">PREUZMI KOMPLETAN DOSIJE (PDF)</button>
     </div>
 </div>
+
 <script>
-    const tr = {
-        en: { h: "Numerology Report 2026", l1: "Full Name", l2: "Date of Birth", l3: "Time of Birth", l4: "Place of Birth", b: "GET MY ANALYSIS", lt: "Analyzing Data...", rt: "Your basic 2026 chart is ready. To see the full destiny report, please verify you are a human." },
-        sr: { h: "Numerološki Izveštaj 2026", l1: "Puno Ime", l2: "Datum Rođenja", l3: "Vreme Rođenja", l4: "Mesto Rođenja", b: "DOBIJ ANALIZU", lt: "Analiza podataka...", rt: "Vaša osnovna karta je spremna. Da vidite ceo izveštaj, uradite verifikaciju." }
-    };
-    function setL(l) {
-        document.getElementById('h').innerText = tr[l].h;
-        document.getElementById('l1').innerText = tr[l].l1;
-        document.getElementById('l2').innerText = tr[l].l2;
-        document.getElementById('l3').innerText = tr[l].l3;
-        document.getElementById('l4').innerText = tr[l].l4;
-        document.getElementById('main-btn').innerText = tr[l].b;
-        document.getElementById('lt').innerText = tr[l].lt;
-        document.getElementById('rt').innerText = tr[l].rt;
+    function calculateDestiny() {
+        const dob = document.getElementById('userDob').value;
+        const name = document.getElementById('userName').value;
+        if(!dob || !name) return alert("Molimo unesite sve podatke.");
+
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
+
+        let p = 0;
+        const fill = document.getElementById('progress-fill');
+        const st = document.getElementById('status-text');
+        const msgs = ["Sabiranje cifara...", "Usklađivanje sa 2026...", "Generisanje teksta..."];
+
+        let interval = setInterval(() => {
+            p++;
+            fill.style.width = p + "%";
+            if(p < 33) st.innerText = msgs[0];
+            else if(p < 66) st.innerText = msgs[1];
+            else st.innerText = msgs[2];
+
+            if(p >= 100) {
+                clearInterval(interval);
+                showResult(dob);
+            }
+        }, 40);
     }
-    function calc() {
-        if(!document.getElementById('name').value) return alert("Name required!");
-        document.getElementById('step1').style.display='none';
-        document.getElementById('loader').style.display='block';
-        let p=0; let i=setInterval(()=>{
-            p++; document.getElementById('f').style.width=p+'%';
-            if(p>=100){ clearInterval(i); document.getElementById('loader').style.display='none'; document.getElementById('result').style.display='block'; }
-        },60);
+
+    function showResult(dateString) {
+        // PRAVA NUMEROLOŠKA LOGIKA: Sabiranje svih cifara
+        let digits = dateString.replace(/-/g, ''); // Uzima npr. 19900515
+        let sum = digits.split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+        while(sum > 9) sum = String(sum).split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+
+        const reports = {
+            1: "Broj 1 (Vođa): 2026. vam donosi moćnu priliku za promenu karijere. Vaša ambicija će biti nagrađena novim prihodima u septembru.",
+            2: "Broj 2 (Partner): Ovo je godina saradnje. Očekujte stabilizaciju u ljubavi i rešavanje starih porodičnih problema.",
+            3: "Broj 3 (Umetnik): Vaša kreativnost će vam doneti slavu. Izuzetno povoljna godina za putovanja i širenje društvenog kruga.",
+            4: "Broj 4 (Graditelj): 2026. je godina napornog rada koji se isplati. Postavljate temelje za narednih 10 godina bogatstva.",
+            5: "Broj 5 (Avanturista): Velike promene dolaze. Moguća je selidba ili neočekivan dobitak kroz igre na sreću ili investicije.",
+            6: "Broj 6 (Čuvar): Fokus je na domu. Harmonija ulazi u vaš život, a zdravlje će vam biti na vrhuncu tokom cele godine.",
+            7: "Broj 7 (Mislilac): Duhovno buđenje. Otkrićete važnu tajnu koja je dugo bila skrivena od vas. Verujte svojoj intuiciji.",
+            8: "Broj 8 (Moćnik): Finansijski bum. Vaša karma se čisti i donosi vam novac koji ste dugo čekali. Budite spremni na akciju.",
+            9: "Broj 9 (Humanista): Kraj jednog ciklusa. Ostavljate sve loše iza sebe. 2026. je vaša godina prosvetljenja i mira."
+        };
+
+        document.getElementById('destiny-number').innerText = sum;
+        document.getElementById('destiny-text').innerText = reports[sum];
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
     }
 </script>
 </body>
